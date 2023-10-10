@@ -46,13 +46,28 @@ namespace CardGame
                     var playerIndex = (_dealerIndex + 1 + j) % _players.Length;
                     cards[playerIndex] = await _players[playerIndex].Play();
                 }
+
+                await Task.Delay(3000);
+
+                int winnerIndex = GetWinner(cards);
                 
                 for (int j = 0; j < _players.Length; j++)
                 {
-                    _players[j].EndTurn(0);
+                    _players[j].EndTurn( j == winnerIndex? 1 : 0);
                 }
             }
             
+        }
+
+        private int GetWinner(CardData[] cards)
+        {
+            int winner = 0;
+            for (int i = 1; i < cards.Length; i++)
+            {
+                if (cards[i] > cards[winner])
+                    winner = i;
+            }
+            return winner;
         }
     }
 }
