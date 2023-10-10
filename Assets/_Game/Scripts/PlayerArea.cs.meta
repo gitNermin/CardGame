@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: f048ce7520f4cc04d8d79a7c6bd5ed62
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _card: {fileID: 4268203950046171145, guid: ac7ee74cab6782540b14946a73249402, type: 3}
+  - _playCardLocation: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

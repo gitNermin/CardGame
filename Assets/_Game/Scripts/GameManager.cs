@@ -31,7 +31,7 @@ namespace CardGame
                 var card = cards[Random.Range(0, cards.Count)];
                 _players[++player % _players.Length].AddCard(card);
                 cards.Remove(card);
-                await Task.Delay(2);
+                await Task.Delay(500);
             }
         }
         async void StartGame()
@@ -45,6 +45,11 @@ namespace CardGame
                 {
                     var playerIndex = (_dealerIndex + 1 + j) % _players.Length;
                     cards[playerIndex] = await _players[playerIndex].Play();
+                }
+                
+                for (int j = 0; j < _players.Length; j++)
+                {
+                    _players[j].EndTurn(0);
                 }
             }
             

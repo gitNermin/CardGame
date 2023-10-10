@@ -13,12 +13,10 @@ namespace CardGame
             PrintCards();
         }
 
-        public override async Task<CardData> Play()
+        protected override async Task<CardData> SelectCard()
         {
-            await Task.Delay(2);
-            var card = _cards[^1];
-            Play(card);
-            return card;
+            await Task.Delay(1000);
+            return _cards[^1];
         }
     }
 }
