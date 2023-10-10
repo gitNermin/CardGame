@@ -14,6 +14,8 @@ namespace CardGame
         [SerializeField] private Player[] _players;
         [SerializeField] private CardsList _cardsList;
 
+        private int _dealerIndex;
+
         private async void Awake()
         {
             await DealCards();
@@ -21,19 +23,31 @@ namespace CardGame
         }
         async Task DealCards()
         {
-            int dealer = Random.Range(0, _players.Length);
+            _dealerIndex = Random.Range(0, _players.Length);
+            int player = _dealerIndex;
             var cards = _cardsList.Items;
             while (cards.Count > 0)
             {
                 var card = cards[Random.Range(0, cards.Count)];
-                _players[++dealer % _players.Length].AddCard(card);
+                _players[++player % _players.Length].AddCard(card);
                 cards.Remove(card);
                 await Task.Delay(2);
             }
         }
-        void StartGame()
+        async void StartGame()
         {
             OnGameStarted?.Invoke();
+            int roundsCount = _cardsList.Count / _players.Length;
+            var cards = new CardData[_players.Length];
+            for (int i = 0; i < roundsCount; i++)
+            {
+                for (int j = 0; j < _players.Length; j++)
+                {
+                    var playerIndex = (_dealerIndex + 1 + j) % _players.Length;
+                    cards[playerIndex] = await _players[playerIndex].Play();
+                }
+            }
+            
         }
     }
 }

@@ -9,6 +9,7 @@ namespace CardGame
         [SerializeField] private T[] _items;
         
         public List<T> Items =>  new (_items);
+        public int Count => _items.Length;
 
         public T this[int index]
         {

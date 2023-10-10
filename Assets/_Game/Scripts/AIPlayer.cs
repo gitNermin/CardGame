@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Threading.Tasks;
 
 namespace CardGame
 {
-    public class AIPlayer : MonoBehaviour
+    public class AIPlayer : Player
     {
-        // Start is called before the first frame update
-        void Start()
+        protected override void OnGameStarted()
         {
-        
+            base.OnGameStarted();
+            _cards.Sort();
+            PrintCards();
         }
 
-        // Update is called once per frame
-        void Update()
+        public override async Task<CardData> Play()
         {
-        
+            await Task.Delay(2);
+            var card = _cards[^1];
+            Play(card);
+            return card;
         }
     }
 }
