@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace CardGame
@@ -8,6 +9,7 @@ namespace CardGame
     {
         [SerializeField] private Card _card;
         [SerializeField] private Transform _playCardLocation;
+        [SerializeField] private TMP_Text _text;
 
         private Dictionary<CardData, Card> _cards = new Dictionary<CardData, Card>();
 
@@ -34,9 +36,10 @@ namespace CardGame
             _cards.Remove(card);
         }
 
-        public void EndTurn()
+        public void EndTurn(int points)
         {
             if(_lastPlayedCard) Destroy(_lastPlayedCard);
+            _text.text = points.ToString();
         }
     }
 }

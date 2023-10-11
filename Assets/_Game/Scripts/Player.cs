@@ -41,7 +41,7 @@ namespace CardGame
         public virtual void EndTurn(int points)
         {
             _totalPoints += points;
-            _area.EndTurn();
+            _area.EndTurn(_totalPoints);
         }
         
         protected virtual bool Play(CardData card)
