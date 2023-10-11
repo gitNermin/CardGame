@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardGame
 {
@@ -9,20 +10,21 @@ namespace CardGame
     {
         [SerializeField] private Card _card;
         [SerializeField] private Transform _playCardLocation;
-        [SerializeField] private TMP_Text _text;
+        [SerializeField] private TMP_Text _pointsText;
+        [SerializeField] private TMP_Text _playerNameText;
 
-        private Dictionary<CardData, Card> _cards = new Dictionary<CardData, Card>();
+        protected Dictionary<CardData, Card> _cards = new Dictionary<CardData, Card>();
 
         private GameObject _lastPlayedCard;
         
-        public void AddCard(CardData card)
+        public virtual void AddCard(CardData card)
         {
             var cardObject = Instantiate(_card, transform);
             _cards.Add(card, cardObject);
             cardObject.Image = card.Image;
         }
 
-        public void PlayCard(CardData card)
+        public virtual void PlayCard(CardData card)
         {
             var cardTransform = _cards[card].transform;
             
@@ -36,10 +38,10 @@ namespace CardGame
             _cards.Remove(card);
         }
 
-        public void EndTurn(int points)
+        public virtual void EndTurn(int points)
         {
             if(_lastPlayedCard) Destroy(_lastPlayedCard);
-            _text.text = points.ToString();
+            _pointsText.text = points.ToString();
         }
     }
 }

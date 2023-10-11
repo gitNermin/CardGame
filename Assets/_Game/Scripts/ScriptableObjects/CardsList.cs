@@ -45,16 +45,6 @@ namespace CardGame
             }
             return a.Number < b.Number;
         }
-
-        public static bool operator ==(CardData a, CardData b)
-        {
-            return a.Suit == b.Suit && a.Number == b.Number;
-        }
-
-        public static bool operator !=(CardData a, CardData b)
-        {
-            return !(a == b);
-        }
     }
 
     public enum CardSuit

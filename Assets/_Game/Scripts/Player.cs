@@ -8,7 +8,7 @@ namespace CardGame
     public abstract class Player : MonoBehaviour
     {
         [SerializeField] private int _id;
-        [SerializeField] private PlayerArea _area;
+        [SerializeField] protected PlayerArea _area;
         protected List<CardData> _cards = new List<CardData>();
         protected int _totalPoints;
         public int TotalPoints => _totalPoints;

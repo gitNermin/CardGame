@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Image = UnityEngine.UI.Image;
 
 namespace CardGame
 {
     [RequireComponent(typeof(Image))]
-    public class Card : MonoBehaviour
+    public class Card : MonoBehaviour, IPointerClickHandler
     {
         private Image _image;
 
@@ -18,6 +18,12 @@ namespace CardGame
                     _image = GetComponent<Image>();
                 _image.sprite = value;
             }
+        }
+
+        public Action OnClick;
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnClick?.Invoke();
         }
     }
 }
