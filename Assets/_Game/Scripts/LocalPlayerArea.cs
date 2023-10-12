@@ -28,9 +28,9 @@ namespace CardGame
             base.AddCard(card);
             _cards[card].OnClick = () =>
             {
-                Debug.Log(card);
                 SelectCard(card);
             };
+            _cards[card].Image = card.Image;
         }
 
         void SelectCard(CardData card)

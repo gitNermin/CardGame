@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -21,7 +22,6 @@ namespace CardGame
         {
             var cardObject = Instantiate(_card, transform);
             _cards.Add(card, cardObject);
-            cardObject.Image = card.Image;
         }
 
         public virtual void PlayCard(CardData card)
@@ -29,12 +29,12 @@ namespace CardGame
             var cardTransform = _cards[card].transform;
             
             cardTransform.parent = transform.parent;
-            cardTransform.position = _playCardLocation.position;
-            cardTransform.rotation = _playCardLocation.rotation;
-            cardTransform.localScale = _playCardLocation.localScale;
+            cardTransform.DOMove(_playCardLocation.position, 0.2f);
+            cardTransform.DORotate(_playCardLocation.rotation.eulerAngles, 0.2f);
+            ((RectTransform)cardTransform).DOSizeDelta(((RectTransform)_playCardLocation).sizeDelta, 0.2f);
 
             _lastPlayedCard = cardTransform.gameObject;
-
+            _cards[card].Image = card.Image;
             _cards.Remove(card);
         }
 

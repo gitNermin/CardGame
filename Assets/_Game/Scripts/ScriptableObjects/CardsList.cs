@@ -6,7 +6,6 @@ namespace CardGame
     [CreateAssetMenu(fileName = "CardsData", menuName = "Card Game/Cards List", order = 0)]
     public class CardsList : ScriptableList<CardData>
     {
-        [field: SerializeField] public Sprite Back;
     }
 
     [Serializable]

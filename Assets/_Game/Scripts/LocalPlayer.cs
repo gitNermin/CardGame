@@ -28,7 +28,6 @@ namespace CardGame
                 await Task.Delay(500);
             }
             var card = _selectedCard;
-            Debug.Log(card);
             _selectedCard = null;
             return card;
         }

@@ -2,7 +2,8 @@
     "name": "CardGame",
     "rootNamespace": "CardGame",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:5b687c8ca4159414dbab292edae0c6d2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
