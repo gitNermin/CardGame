@@ -4,15 +4,19 @@ namespace CardGame
 {
     public class AIPlayer : Player
     {
-        protected override void OnGameStarted()
+        private bool _hasSortedCards = false;
+        public AIPlayer(PlayerArea area)
         {
-            base.OnGameStarted();
-            _cards.Sort();
-            PrintCards();
+            _area = area;
         }
-
         protected override async Task<CardData> SelectCard()
         {
+            if (!_hasSortedCards)
+            {
+                _cards.Sort();
+                _hasSortedCards = true;
+            }
+            
             await Task.Delay(1000);
             return _cards[^1];
         }

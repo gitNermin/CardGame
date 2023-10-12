@@ -7,34 +7,59 @@ namespace CardGame
 {
     public class GameManager : MonoBehaviour
     {
+        private const int PLAYERS_COUNT = 4;
         public static event Action OnGameStarted;
         public static event Action OnGameFinished;
+
+        [Tooltip("Areas in anti-clockwise order")] 
+        [SerializeField] private PlayerArea[] _playerAreas;
         
-        [Tooltip("Players in anti-clockwise order")]
-        [SerializeField] private Player[] _players;
+        [SerializeField] private PlayArea _playArea;
         [SerializeField] private CardsList _cardsList;
 
+        private Player[] _players = new Player[PLAYERS_COUNT];
         private int _dealerIndex;
 
         private async void Awake()
         {
+            Setup();
             await DealCards();
-            StartGame();
+            await PlayGame();
+        }
+
+        void Setup()
+        {
+            for (int i = 0; i < PLAYERS_COUNT; i++)
+            {
+                if (i == 0)
+                {
+                    _players[i] = new LocalPlayer((LocalPlayerArea)_playerAreas[i]);
+                }
+                else
+                {
+                    _players[i] = new AIPlayer(_playerAreas[i]);
+                }
+                
+                _playerAreas[i].Initialize(_playArea, $"Player {i}");
+            }
         }
         async Task DealCards()
         {
             _dealerIndex = Random.Range(0, _players.Length);
+            
             int player = _dealerIndex;
             var cards = _cardsList.Items;
+            
             while (cards.Count > 0)
             {
                 var card = cards[Random.Range(0, cards.Count)];
                 _players[++player % _players.Length].AddCard(card);
                 cards.Remove(card);
+                
                 await Task.Delay(500);
             }
         }
-        async void StartGame()
+        async Task PlayGame()
         {
             OnGameStarted?.Invoke();
             int roundsCount = _cardsList.Count / _players.Length;
@@ -47,9 +72,13 @@ namespace CardGame
                     cards[playerIndex] = await _players[playerIndex].Play();
                 }
 
-                await Task.Delay(3000);
-
                 int winnerIndex = GetWinner(cards);
+                
+                await Task.Delay(2000);
+                
+                _playArea.CollectCards(_playerAreas[winnerIndex].PlayerLocation);
+                
+                await Task.Delay(1000);
                 
                 for (int j = 0; j < _players.Length; j++)
                 {

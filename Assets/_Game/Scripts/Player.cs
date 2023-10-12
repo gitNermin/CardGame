@@ -5,25 +5,13 @@ using UnityEngine;
 
 namespace CardGame
 {
-    public abstract class Player : MonoBehaviour
+    public abstract class Player
     {
-        [SerializeField] private int _id;
-        [SerializeField] protected PlayerArea _area;
+        protected PlayerArea _area;
         protected List<CardData> _cards = new List<CardData>();
         protected int _totalPoints;
         public int TotalPoints => _totalPoints;
         public bool HasCards => _cards.Count > 0;
-
-        protected void Awake()
-        {
-            GameManager.OnGameStarted += OnGameStarted;
-        }
-        protected virtual void OnGameStarted()
-        {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-            PrintCards();
-#endif
-        }
         public virtual bool AddCard(CardData card)
         {
             if (_cards.Contains(card)) return false;
@@ -54,17 +42,13 @@ namespace CardGame
         protected void PrintCards()
         {
             StringBuilder str = new StringBuilder();
-            str.Append($"Player {_id}, Cards: ");
+            str.Append($"Cards: ");
             for (int i = 0; i < _cards.Count; i++)
             {
                 str.Append(_cards[i]);
                 if (i != _cards.Count - 1) str.Append(", ");
             }
             Debug.Log(str);
-        }
-        private void OnDestroy()
-        {
-            GameManager.OnGameStarted -= OnGameStarted;
         }
     }
 }

@@ -5,17 +5,17 @@ namespace CardGame
 {
     public class LocalPlayer : Player
     {
-
         private CardData _selectedCard;
 
-        protected override void OnGameStarted()
+        public LocalPlayer(LocalPlayerArea area)
         {
-            base.OnGameStarted();
-            ((LocalPlayerArea)_area).OnCardSelected += OnCardSelected;
+            _area = area;
+            area.OnCardSelected += OnCardSelected;
         }
 
         private void OnCardSelected(CardData card)
         {
+            Debug.Log(card);
             _selectedCard = card;
             ((LocalPlayerArea)_area).Interactable = false;
         }
@@ -23,6 +23,7 @@ namespace CardGame
         protected override async Task<CardData> SelectCard()
         {
             ((LocalPlayerArea)_area).Interactable = true;
+            //TODO: Replace with UniRx Event Observable
             while (_selectedCard == null)
             {
                 await Task.Delay(500);
